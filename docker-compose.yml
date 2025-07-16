@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_NAME: db_proyecto_final
+      DB_USER: root
+      DB_PASS: ejemplo123
+    volumes:
+      - .:/var/www/html
+
+  db:
+    image: mariadb:10.11
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ejemplo123
+      MYSQL_DATABASE: db_proyecto_final
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./config/DB.sql:/docker-entrypoint-initdb.d/DB.sql:ro
+      - ./config/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+
+volumes:
+  mariadb_data:
