@@ -91,12 +91,12 @@ $criticalProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <?php
 require_once __DIR__ . '/../../controllers/models/ProveedorModel.php';
 $proveedorModel = new ProveedorModel($db);
-$proveedoresInventario = $proveedorModel->getAllProveedoresConInventario();
+$proveedoresInventario = $proveedorModel->getAllProveedoresConInventarioYCompras();
 ?>
 <!-- CDN Bootstrap 5 solo si no está en el header -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <?php if (!empty($proveedoresInventario)): ?>
-    <h3 class="mt-4 mb-3">🏭 Inventario por Proveedor</h3>
+    <h3 class="mt-4 mb-3">🏭 Inventario y Compras por Proveedor</h3>
     <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
         <?php foreach ($proveedoresInventario as $prov): ?>
             <div class="col">
@@ -106,7 +106,9 @@ $proveedoresInventario = $proveedorModel->getAllProveedoresConInventario();
                             <?php echo htmlspecialchars($prov['nombre_proveedor']); ?>
                         </h5>
                         <p class="card-text mb-0">
-                            <span class="fw-bold">Inventario total:</span> <?php echo (int)$prov['total_inventario']; ?> unidades
+                            <span class="fw-bold">Inventario actual:</span> <?php echo (int)$prov['total_inventario']; ?> unidades<br>
+                            <span class="fw-bold">Total vendido:</span> <?php echo (int)$prov['total_vendido']; ?> unidades<br>
+                            <span class="fw-bold">Total comprado históricamente:</span> <?php echo (int)$prov['total_comprado']; ?> unidades
                         </p>
                     </div>
                 </div>

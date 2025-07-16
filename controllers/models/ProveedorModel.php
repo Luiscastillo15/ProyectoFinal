@@ -151,5 +151,29 @@ class ProveedorModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getAllProveedoresConInventarioYCompras() {
+        $query = "SELECT 
+                    pr.id_proveedor,
+                    pr.Nombre AS nombre_proveedor,
+                    SUM(COALESCE(s.Cantidad, 0)) AS total_inventario,
+                    SUM(COALESCE(dv.Cantidad, 0)) AS total_vendido,
+                    SUM(COALESCE(s.Cantidad, 0)) + SUM(COALESCE(dv.Cantidad, 0)) AS total_comprado
+                  FROM 
+                    Proveedor pr
+                  LEFT JOIN 
+                    Producto p ON pr.id_proveedor = p.id_proveedor
+                  LEFT JOIN 
+                    Stock s ON p.id_producto = s.id_producto
+                  LEFT JOIN 
+                    DetalleVenta dv ON p.id_producto = dv.id_producto
+                  GROUP BY 
+                    pr.id_proveedor, pr.Nombre
+                  ORDER BY 
+                    total_comprado DESC, pr.Nombre ASC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>
