@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: app
+    env: docker
+    plan: free
+    dockerfilePath: Dockerfile
+    dockerContext: .
+    envVars:
+      - key: DB_HOST
+        value: db
+      - key: DB_NAME
+        value: db_proyecto_final
+      - key: DB_USER
+        value: root
+      - key: DB_PASS
+        value: ejemplo123
+
+  - type: pserv
+    name: db
+    env: docker
+    plan: free
+    dockerfilePath: ""
+    dockerComposeService: db
