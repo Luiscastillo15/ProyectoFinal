@@ -83,7 +83,7 @@ $criticalProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
            class="btn" style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">
             📦 Ver Inventario
         </a>
-        <button onclick="showCriticalProductProviders()" style="background: linear-gradient(135deg,rgb(10, 106, 58),rgb(49, 84, 44)); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">📞Contactar</button>        
+        <button class="btn" onclick="showCriticalProductProviders()" style="background: linear-gradient(135deg,rgb(10, 106, 58),rgb(49, 84, 44)); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">📞Contactar</button>        
     </div>
 </div>
 <?php endif; ?>
