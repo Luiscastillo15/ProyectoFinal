@@ -74,7 +74,7 @@ $criticalProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
     <?php endif; ?>
     
-    <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+    <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; border: 1px;">
         <a href="index.php?action=proveedores&method=lowStock" 
            class="btn" style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 3px 10px rgba(231, 76, 60, 0.3);">
             📋 Ver Reporte Completo
@@ -83,9 +83,36 @@ $criticalProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
            class="btn" style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">
             📦 Ver Inventario
         </a>
-        <button onclick="showCriticalProductProviders()">📞Contactar</button>        
+        <button onclick="showCriticalProductProviders()" style="border-radius: 10px;">📞Contactar</button>        
     </div>
 </div>
+<?php endif; ?>
+
+<?php
+require_once __DIR__ . '/../../controllers/models/ProveedorModel.php';
+$proveedorModel = new ProveedorModel($db);
+$proveedoresInventario = $proveedorModel->getAllProveedoresConInventario();
+?>
+<!-- CDN Bootstrap 5 solo si no está en el header -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<?php if (!empty($proveedoresInventario)): ?>
+    <h3 class="mt-4 mb-3">🏭 Inventario por Proveedor</h3>
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+        <?php foreach ($proveedoresInventario as $prov): ?>
+            <div class="col">
+                <div class="card h-100 shadow-sm border-success">
+                    <div class="card-body">
+                        <h5 class="card-title text-success">
+                            <?php echo htmlspecialchars($prov['nombre_proveedor']); ?>
+                        </h5>
+                        <p class="card-text mb-0">
+                            <span class="fw-bold">Inventario total:</span> <?php echo (int)$prov['total_inventario']; ?> unidades
+                        </p>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
 <?php endif; ?>
 
 <!-- Navegación de Secciones -->

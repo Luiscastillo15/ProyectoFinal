@@ -110,5 +110,46 @@ class ProveedorModel {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['count'] > 0;
     }
+
+    public function getProveedorConMasInventario() {
+        $query = "SELECT 
+                    pr.id_proveedor,
+                    pr.Nombre AS nombre_proveedor,
+                    SUM(COALESCE(s.Cantidad, 0)) AS total_inventario
+                  FROM 
+                    Producto p
+                  LEFT JOIN 
+                    Stock s ON p.id_producto = s.id_producto
+                  LEFT JOIN 
+                    Proveedor pr ON p.id_proveedor = pr.id_proveedor
+                  GROUP BY 
+                    pr.id_proveedor, pr.Nombre
+                  ORDER BY 
+                    total_inventario DESC
+                  LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllProveedoresConInventario() {
+        $query = "SELECT 
+                    pr.id_proveedor,
+                    pr.Nombre AS nombre_proveedor,
+                    SUM(COALESCE(s.Cantidad, 0)) AS total_inventario
+                  FROM 
+                    Proveedor pr
+                  LEFT JOIN 
+                    Producto p ON pr.id_proveedor = p.id_proveedor
+                  LEFT JOIN 
+                    Stock s ON p.id_producto = s.id_producto
+                  GROUP BY 
+                    pr.id_proveedor, pr.Nombre
+                  ORDER BY 
+                    total_inventario DESC, pr.Nombre ASC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

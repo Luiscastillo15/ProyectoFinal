@@ -221,6 +221,11 @@ class ProveedorController {
         exit;
     }
 
+    public function proveedorTopInventario() {
+        $proveedor = $this->proveedorModel->getProveedorConMasInventario();
+        require_once 'views/proveedores/top_inventario.php';
+    }
+
     private function validateProveedorData($rif, $nombre, $telefono, $correo) {
         $errors = [];
 

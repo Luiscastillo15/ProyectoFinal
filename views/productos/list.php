@@ -1,5 +1,26 @@
 <?php require_once 'views/layout/header.php'; ?>
 
+<?php
+// Obtener el proveedor con más inventario directamente aquí
+require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../controllers/models/ProveedorModel.php';
+$database = new Database();
+$db = $database->getConnection();
+$proveedorModel = new ProveedorModel($db);
+$proveedorTop = $proveedorModel->getProveedorConMasInventario();
+?>
+
+<!-- CDN Bootstrap 5 solo si no está en el header -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<?php if ($proveedorTop && !empty($proveedorTop['nombre_proveedor'])): ?>
+    <div style="background: #e8f5e9; border-left: 6px solid #27ae60; padding: 1rem 1.5rem; margin-bottom: 1.5rem; border-radius: 8px;">
+        <strong>🏆 Proveedor con más inventario:</strong> <span style="color: #27ae60; font-weight: bold; font-size: 1.1rem;">
+        <?php echo htmlspecialchars($proveedorTop['nombre_proveedor']); ?></span> <span style="color: #555;">con</span> <span style="font-weight: bold; color: #2d3436; font-size: 1.1rem;">
+        <?php echo $proveedorTop['total_inventario']; ?></span> unidades.
+    </div>
+<?php endif; ?>
+
 <h2>📦 Gestión de Inventario</h2>
 
 <?php if (isset($_SESSION['success'])): ?>
