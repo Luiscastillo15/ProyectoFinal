@@ -74,6 +74,7 @@
         <!-- Campos ocultos para mantener el estado -->
         <input type="hidden" name="client_type" id="hidden_client_type" value="<?php echo isset($_POST['client_type']) ? $_POST['client_type'] : ''; ?>">
         <input type="hidden" name="cedula_rif" id="hidden_cedula_rif" value="<?php echo isset($_POST['cedula_rif']) ? $_POST['cedula_rif'] : ''; ?>">
+        <input type="hidden" name="scroll_position" id="scroll_position">
         
         <div class="form-row">
             <div class="form-group">
@@ -338,6 +339,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
+
+    document.scrollingElement.scrollTop = <?php echo isset($_POST['scroll_position']) ? $_POST['scroll_position'] : '0'; ?>;
 });
 
 // Selección de tipo de cliente
@@ -373,12 +376,12 @@ function selectClientType(type, updateHidden = true) {
     if (type === 'registered') {
         document.getElementById('registered-client-form').style.display = 'block';
         document.getElementById('direct-sale-form').style.display = 'none';
-        document.getElementById('final_cedula_rif').value = '';
+        if (document.getElementById('final_cedula_rif')) document.getElementById('final_cedula_rif').value = '';
         document.getElementById('hidden_cedula_rif').value = '';
     } else {
         document.getElementById('registered-client-form').style.display = 'none';
         document.getElementById('direct-sale-form').style.display = 'block';
-        document.getElementById('final_cedula_rif').value = 'VENTA_DIRECTA';
+        if (document.getElementById('final_cedula_rif')) document.getElementById('final_cedula_rif').value = 'VENTA_DIRECTA';
         document.getElementById('hidden_cedula_rif').value = 'VENTA_DIRECTA';
         
         // Actualizar todos los campos ocultos de cedula_rif
@@ -451,7 +454,7 @@ document.addEventListener('click', function(e) {
 
 // Sincronizar selección de cliente
 document.getElementById('cedula_rif').addEventListener('change', function() {
-    document.getElementById('final_cedula_rif').value = this.value;
+    if (document.getElementById('final_cedula_rif')) document.getElementById('final_cedula_rif').value = this.value;
     document.getElementById('hidden_cedula_rif').value = this.value;
     
     // Actualizar todos los campos ocultos de cedula_rif
@@ -651,15 +654,6 @@ function updateDivisasCalculation() {
 }
 
 // Event listeners
-document.getElementById('amount_paid').addEventListener('input', function() {
-    const selectedPaymentMethod = document.querySelector('input[name="payment_method"]:checked');
-    if (selectedPaymentMethod && selectedPaymentMethod.value === 'Efectivo') {
-        updateChangeCalculation();
-    }
-});
-
-document.getElementById('divisas_amount').addEventListener('input', updateDivisasCalculation);
-document.getElementById('exchange_rate').addEventListener('input', updateDivisasCalculation);
 
 // Validación del formulario de productos
 document.getElementById('product-form').addEventListener('submit', function(e) {
@@ -694,6 +688,8 @@ document.getElementById('product-form').addEventListener('submit', function(e) {
                 return false;
             }
         }
+
+        document.getElementById('scroll_position').value = document.scrollingElement.scrollTop;
     }
 });
 
@@ -753,6 +749,16 @@ document.getElementById('finalize-form').addEventListener('submit', function(e) 
         }
     }
 });
+
+document.getElementById('amount_paid').addEventListener('input', function() {
+    const selectedPaymentMethod = document.querySelector('input[name="payment_method"]:checked');
+    if (selectedPaymentMethod && selectedPaymentMethod.value === 'Efectivo') {
+        updateChangeCalculation();
+    }
+});
+
+document.getElementById('divisas_amount').addEventListener('input', updateDivisasCalculation);
+document.getElementById('exchange_rate').addEventListener('input', updateDivisasCalculation);
 </script>
 
 <?php require_once 'views/layout/footer.php'; ?>
