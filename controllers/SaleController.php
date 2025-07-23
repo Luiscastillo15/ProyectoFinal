@@ -48,6 +48,7 @@ class SaleController {
                 $this->finalizeSale();
             }
         } else {
+            $_SESSION['cart'] = null;
             $this->showNewSaleForm();
         }
     }
