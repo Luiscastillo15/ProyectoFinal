@@ -32,12 +32,14 @@ class ProductController {
             $unidad = $_POST['unidad'];
             $cantidad = $_POST['cantidad'];
             $id_proveedor = !empty($_POST['id_proveedor']) ? $_POST['id_proveedor'] : null;
+            $umbral_bajo = isset($_POST['umbral_bajo']) ? (int)$_POST['umbral_bajo'] : 15;
+            $umbral_critico = isset($_POST['umbral_critico']) ? (int)$_POST['umbral_critico'] : 5;
 
             // Iniciar transacción
             $this->productModel->beginTransaction();
             
             try {
-                $productId = $this->productModel->createProduct($nombre, $precio, $unidad, $id_proveedor);
+                $productId = $this->productModel->createProduct($nombre, $precio, $unidad, $id_proveedor, $umbral_bajo, $umbral_critico);
                 $this->stockModel->createStock($productId, $cantidad);
                 
                 $this->productModel->commit();
@@ -69,12 +71,14 @@ class ProductController {
             $precio = $_POST['precio'];
             $unidad = $_POST['unidad'];
             $cantidad = $_POST['cantidad'];
+            $umbral_bajo = isset($_POST['umbral_bajo']) ? (int)$_POST['umbral_bajo'] : 15;
+            $umbral_critico = isset($_POST['umbral_critico']) ? (int)$_POST['umbral_critico'] : 5;
             $id_proveedor = !empty($_POST['id_proveedor']) ? $_POST['id_proveedor'] : null;
 
             $this->productModel->beginTransaction();
             
             try {
-                $this->productModel->updateProduct($id, $nombre, $precio, $unidad, $id_proveedor);
+                $this->productModel->updateProduct($id, $nombre, $precio, $unidad, $id_proveedor, $umbral_bajo, $umbral_critico);
                 $this->stockModel->updateStock($id, $cantidad);
                 
                 $this->productModel->commit();

@@ -92,8 +92,8 @@ $proveedorTop = $proveedorModel->getProveedorConMasInventario();
                         <td><?php echo htmlspecialchars($product['Unidad']); ?></td>
                         <td>
                             <span class="status-indicator <?php 
-                                if ($product['Cantidad'] <= 5) echo 'status-low';
-                                elseif ($product['Cantidad'] <= 15) echo 'status-medium';
+                                if ($product['Cantidad'] <= $product['Umbral_Critico']) echo 'status-low';
+                                elseif ($product['Cantidad'] <= $product['Umbral_Bajo']) echo 'status-medium';
                                 else echo 'status-high';
                             ?>">
                                 <?php echo $product['Cantidad']; ?>
@@ -109,9 +109,9 @@ $proveedorTop = $proveedorModel->getProveedorConMasInventario();
                             <?php endif; ?>
                         </td>
                         <td>
-                            <?php if ($product['Cantidad'] <= 5): ?>
+                            <?php if ($product['Cantidad'] <= $product['Umbral_Critico']): ?>
                                 <span class="status-indicator status-low">⚠️ Stock Crítico</span>
-                            <?php elseif ($product['Cantidad'] <= 15): ?>
+                            <?php elseif ($product['Cantidad'] <= $product['Umbral_Bajo']): ?>
                                 <span class="status-indicator status-medium">⚡ Stock Bajo</span>
                             <?php else: ?>
                                 <span class="status-indicator status-high">✅ Disponible</span>
@@ -142,15 +142,15 @@ $proveedorTop = $proveedorModel->getProveedorConMasInventario();
             <span class="stat-label">📦 Total Productos</span>
         </div>
         <div class="stat-card">
-            <span class="stat-number"><?php echo count(array_filter($products, function($p) { return $p['Cantidad'] > 15; })); ?></span>
+            <span class="stat-number"><?php echo count(array_filter($products, function($p) { return $p['Cantidad'] > $p['Umbral_Bajo']; })); ?></span>
             <span class="stat-label">✅ Stock Bueno</span>
         </div>
         <div class="stat-card">
-            <span class="stat-number" style="color: #f39c12;"><?php echo count(array_filter($products, function($p) { return $p['Cantidad'] <= 15 && $p['Cantidad'] > 5; })); ?></span>
+            <span class="stat-number" style="color: #f39c12;"><?php echo count(array_filter($products, function($p) { return $p['Cantidad'] <= $p['Umbral_Bajo'] && $p['Cantidad'] > $p['Umbral_Critico']; })); ?></span>
             <span class="stat-label">⚡ Stock Bajo</span>
         </div>
         <div class="stat-card">
-            <span class="stat-number" style="color: #e74c3c;"><?php echo count(array_filter($products, function($p) { return $p['Cantidad'] <= 5; })); ?></span>
+            <span class="stat-number" style="color: #e74c3c;"><?php echo count(array_filter($products, function($p) { return $p['Cantidad'] <= $p['Umbral_Critico']; })); ?></span>
             <span class="stat-label">⚠️ Stock Crítico</span>
         </div>
         <div class="stat-card">

@@ -12,34 +12,15 @@
        class="btn" style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);">
         ⚠️ Productos con Stock Bajo
     </a>
-</div>
-
-<div class="form-container">
-    <form action="index.php?action=proveedores&method=lowStock" method="get" id="stockForm">
-        <div class="form-row">
-            <div class="form-group">
-                <label for="threshold">📊 Umbral de Stock:</label>
-                <input type="number" id="threshold" name="threshold" min="1" max="100" 
-                       value="<?php echo isset($threshold) ? $threshold : 10; ?>" 
-                       placeholder="Cantidad mínima">
-                <small style="color: #7f8c8d; font-size: 0.8rem;">
-                    Productos con stock igual o menor a este número
-                </small>
-            </div>
-            <div class="form-group" style="display: flex; align-items: end; gap: 0.5rem;">
-                <button type="submit" name="generate_report" class="btn btn-success">🔍 Filtrar</button>
-                <?php if (isset($products) && !empty($products)): ?>
-                <a href="index.php?action=invoice&method=lowStockReport&threshold=<?php echo $threshold; ?>" 
-                   target="_blank" class="btn btn-warning">📄 Generar PDF</a>
-                <?php endif; ?>
-            </div>
-        </div>
-    </form>
+    <?php if (isset($products) && !empty($products)): ?>
+        <a href="index.php?action=invoice&method=lowStockReport&threshold=<?php echo $threshold; ?>" 
+            target="_blank" class="btn btn-warning">📄 Generar PDF</a>
+    <?php endif; ?>
 </div>
 
 <?php if (isset($products)): ?>
     <div class="card">
-        <h3>💧 Productos de Agua con Stock ≤ <?php echo $threshold; ?> unidades</h3>
+        <h3>💧 Productos de Agua con Stock Bajo</h3>
         
         <!-- Estadísticas -->
         <div class="stats-grid" style="margin: 2rem 0;">
@@ -48,8 +29,8 @@
                 <span class="stat-label">⚠️ Productos Afectados</span>
             </div>
             <div class="stat-card">
-                <span class="stat-number"><?php echo count(array_filter($products, function($p) { return $p['Cantidad'] <= 5; })); ?></span>
-                <span class="stat-label">🚨 Stock Crítico (≤5)</span>
+                <span class="stat-number"><?php echo count(array_filter($products, function($p) { return $p['Cantidad'] <= $p['Umbral_Critico']; })); ?></span>
+                <span class="stat-label">🚨 Stock Crítico</span>
             </div>
             <div class="stat-card">
                 <span class="stat-number">Bs <?php echo number_format(array_sum(array_map(function($p) { return $p['Precio'] * $p['Cantidad']; }, $products)), 2); ?></span>
@@ -235,16 +216,16 @@ function showProviderModal(providers) {
     });
 }
 
-// Validación del formulario
-document.getElementById('stockForm').addEventListener('submit', function(e) {
-    const threshold = parseInt(document.getElementById('threshold').value);
+// // Validación del formulario
+// document.getElementById('stockForm').addEventListener('submit', function(e) {
+//     const threshold = parseInt(document.getElementById('threshold').value);
     
-    if (threshold < 1 || threshold > 100) {
-        e.preventDefault();
-        alert('⚠️ El umbral debe estar entre 1 y 100.');
-        return false;
-    }
-});
+//     if (threshold < 1 || threshold > 100) {
+//         e.preventDefault();
+//         alert('⚠️ El umbral debe estar entre 1 y 100.');
+//         return false;
+//     }
+// });
 </script>
 
 <?php require_once 'views/layout/footer.php'; ?>

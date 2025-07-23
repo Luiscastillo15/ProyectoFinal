@@ -176,7 +176,7 @@ class ProveedorController {
                       FROM Producto p 
                       LEFT JOIN Stock s ON p.id_producto = s.id_producto
                       LEFT JOIN Proveedor pr ON p.id_proveedor = pr.id_proveedor
-                      WHERE s.Cantidad <= 5 AND pr.id_proveedor IS NOT NULL
+                      WHERE s.Cantidad <= p.Umbral_Critico AND pr.id_proveedor IS NOT NULL
                       ORDER BY s.Cantidad ASC, pr.Nombre ASC";
             
             $stmt = $db->prepare($query);

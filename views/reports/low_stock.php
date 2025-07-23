@@ -2,7 +2,7 @@
 
 <h2>⚠️ Productos con Stock Bajo</h2>
 
-<div class="form-container">
+<!-- <div class="form-container">
     <form action="index.php?action=reportes&method=lowStock" method="get" id="stockForm">
         <div class="form-row">
             <div class="form-group">
@@ -22,11 +22,11 @@
             </div>
         </div>
     </form>
-</div>
+</div> -->
 
 <?php if (isset($products)): ?>
     <div class="card">
-        <h3>📦 Productos con Stock ≤ <?php echo $threshold; ?> unidades</h3>
+        <h3>📦 Productos con Stock Bajo</h3>
         
         <!-- Estadísticas -->
         <div class="stats-grid" style="margin: 2rem 0;">
@@ -35,8 +35,8 @@
                 <span class="stat-label">⚠️ Productos Afectados</span>
             </div>
             <div class="stat-card">
-                <span class="stat-number"><?php echo count(array_filter($products, function($p) { return $p['Cantidad'] <= 5; })); ?></span>
-                <span class="stat-label">🚨 Stock Crítico (≤5)</span>
+                <span class="stat-number"><?php echo count(array_filter($products, function($p) { return $p['Cantidad'] <= $p['Umbral_Critico']; })); ?></span>
+                <span class="stat-label">🚨 Stock Crítico</span>
             </div>
             <div class="stat-card">
                 <span class="stat-number">Bs <?php echo number_format(array_sum(array_map(function($p) { return $p['Precio'] * $p['Cantidad']; }, $products)), 2); ?></span>
@@ -70,7 +70,7 @@
                             <td>Bs <?php echo number_format($product['Precio'], 2); ?></td>
                             <td><?php echo htmlspecialchars($product['Unidad']); ?></td>
                             <td>
-                                <span style="color: <?php echo $product['Cantidad'] <= 5 ? '#e74c3c' : '#f39c12'; ?>; font-weight: bold;">
+                                <span style="color: <?php echo $product['Cantidad'] <= $product['Umbral_Critico'] ? '#e74c3c' : '#f39c12'; ?>; font-weight: bold;">
                                     <?php echo $product['Cantidad']; ?>
                                 </span>
                             </td>
@@ -210,13 +210,13 @@ function showProviderModal(providers) {
 
 // Validación del formulario
 document.getElementById('stockForm').addEventListener('submit', function(e) {
-    const threshold = parseInt(document.getElementById('threshold').value);
+    // const threshold = parseInt(document.getElementById('threshold').value);
     
-    if (threshold < 1 || threshold > 100) {
-        e.preventDefault();
-        alert('⚠️ El umbral debe estar entre 1 y 100.');
-        return false;
-    }
+    // if (threshold < 1 || threshold > 100) {
+    //     e.preventDefault();
+    //     alert('⚠️ El umbral debe estar entre 1 y 100.');
+    //     return false;
+    // }
 });
 </script>
 

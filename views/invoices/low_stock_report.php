@@ -219,7 +219,6 @@
         <div class="report-header">
             <div class="company-name">SISTEMA AguaZero C.A.</div>
             <div class="report-title">⚠️ REPORTE DE PRODUCTOS CON STOCK BAJO</div>
-            <div class="report-threshold">Umbral: ≤ <?php echo $threshold; ?> unidades</div>
             <div class="report-date">Generado el: <?php echo date('d/m/Y H:i:s'); ?></div>
         </div>
 
@@ -230,8 +229,8 @@
                 <span class="stat-label">⚠️ Productos Afectados</span>
             </div>
             <div class="stat-card">
-                <span class="stat-number"><?php echo count(array_filter($products, function($p) { return $p['Cantidad'] <= 5; })); ?></span>
-                <span class="stat-label">🚨 Stock Crítico (≤5)</span>
+                <span class="stat-number"><?php echo count(array_filter($products, function($p) { return $p['Cantidad'] <= $p['Umbral_Critico']; })); ?></span>
+                <span class="stat-label">🚨 Stock Crítico</span>
             </div>
             <div class="stat-card">
                 <span class="stat-number">Bs <?php echo number_format(array_sum(array_map(function($p) { return $p['Precio'] * $p['Cantidad']; }, $products)), 2); ?></span>
@@ -273,10 +272,10 @@
                     <td><strong><?php echo htmlspecialchars($product['Nombre']); ?></strong></td>
                     <td class="text-right">Bs <?php echo number_format($product['Precio'], 2); ?></td>
                     <td><?php echo htmlspecialchars($product['Unidad']); ?></td>
-                    <td class="text-center"><strong style="color: <?php echo $product['Cantidad'] <= 5 ? '#e74c3c' : '#f39c12'; ?>;"><?php echo $product['Cantidad']; ?></strong></td>
+                    <td class="text-center"><strong style="color: <?php echo $product['Cantidad'] <= $product['Umbral_Critico'] ? '#e74c3c' : '#f39c12'; ?>;"><?php echo $product['Cantidad']; ?></strong></td>
                     <td class="text-right">Bs <?php echo number_format($valorProducto, 2); ?></td>
                     <td class="text-center">
-                        <?php if ($product['Cantidad'] <= 5): ?>
+                        <?php if ($product['Cantidad'] <= $product['Umbral_Critico']): ?>
                             <span class="status-critical">🚨 CRÍTICO</span>
                         <?php else: ?>
                             <span class="status-low">⚠️ BAJO</span>

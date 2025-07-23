@@ -177,6 +177,8 @@ CREATE TABLE `producto` (
   `id_proveedor` int(11) DEFAULT NULL,
   `Fecha_Registro` timestamp NOT NULL DEFAULT current_timestamp(),
   `Estado` enum('Activo','Inactivo') DEFAULT 'Activo',
+  `Umbral_Bajo` int(11) NOT NULL DEFAULT 15,
+  `Umbral_Critico` int(11) NOT NULL DEFAULT 5,
   PRIMARY KEY (`id_producto`),
   KEY `idx_nombre` (`Nombre`),
   KEY `idx_precio` (`Precio`),

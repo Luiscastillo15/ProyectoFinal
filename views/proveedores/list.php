@@ -15,16 +15,16 @@
 $database = new Database();
 $db = $database->getConnection();
 
-$stmt = $db->prepare("SELECT COUNT(*) as total FROM Producto p LEFT JOIN Stock s ON p.id_producto = s.id_producto WHERE s.Cantidad <= 5");
+$stmt = $db->prepare("SELECT COUNT(*) as total FROM Producto p LEFT JOIN Stock s ON p.id_producto = s.id_producto WHERE s.Cantidad <= p.Umbral_Critico");
 $stmt->execute();
 $criticalStockCount = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
 
-$stmt = $db->prepare("SELECT COUNT(*) as total FROM Producto p LEFT JOIN Stock s ON p.id_producto = s.id_producto WHERE s.Cantidad <= 10 AND s.Cantidad > 5");
+$stmt = $db->prepare("SELECT COUNT(*) as total FROM Producto p LEFT JOIN Stock s ON p.id_producto = s.id_producto WHERE s.Cantidad <= p.Umbral_Bajo AND s.Cantidad > p.Umbral_Critico");
 $stmt->execute();
 $lowStockCount = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
 
 // Obtener productos con stock crítico para mostrar detalles
-$stmt = $db->prepare("SELECT p.Nombre, s.Cantidad FROM Producto p LEFT JOIN Stock s ON p.id_producto = s.id_producto WHERE s.Cantidad <= 5 ORDER BY s.Cantidad ASC LIMIT 5");
+$stmt = $db->prepare("SELECT p.Nombre, s.Cantidad FROM Producto p LEFT JOIN Stock s ON p.id_producto = s.id_producto WHERE s.Cantidad <= p.Umbral_Critico ORDER BY s.Cantidad ASC LIMIT 5");
 $stmt->execute();
 $criticalProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -44,14 +44,14 @@ $criticalProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php if ($criticalStockCount > 0): ?>
         <div style="background: rgba(231, 76, 60, 0.1); padding: 1rem; border-radius: 8px; border-left: 3px solid #e74c3c;">
             <div style="font-size: 1.5rem; font-weight: bold; color: #e74c3c;"><?php echo $criticalStockCount; ?></div>
-            <div style="font-size: 0.9rem; color: #c0392b; font-weight: 600;">🚨 Stock Crítico (≤5)</div>
+            <div style="font-size: 0.9rem; color: #c0392b; font-weight: 600;">🚨 Stock Crítico</div>
         </div>
         <?php endif; ?>
         
         <?php if ($lowStockCount > 0): ?>
         <div style="background: rgba(243, 156, 18, 0.1); padding: 1rem; border-radius: 8px; border-left: 3px solid #f39c12;">
             <div style="font-size: 1.5rem; font-weight: bold; color: #f39c12;"><?php echo $lowStockCount; ?></div>
-            <div style="font-size: 0.9rem; color: #d68910; font-weight: 600;">⚡ Stock Bajo (6-10)</div>
+            <div style="font-size: 0.9rem; color: #d68910; font-weight: 600;">⚡ Stock Bajo</div>
         </div>
         <?php endif; ?>
         

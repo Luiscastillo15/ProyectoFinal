@@ -46,27 +46,28 @@ class ProductModel {
                   FROM Producto p 
                   LEFT JOIN Stock s ON p.id_producto = s.id_producto
                   LEFT JOIN Proveedor pr ON p.id_proveedor = pr.id_proveedor
-                  WHERE COALESCE(s.Cantidad, 0) <= :threshold
+                  WHERE COALESCE(s.Cantidad, 0) <= p.Umbral_Bajo
                   ORDER BY s.Cantidad ASC, p.Nombre ASC";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':threshold', $threshold);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function createProduct($nombre, $precio, $unidad, $id_proveedor = null) {
-        $query = "INSERT INTO Producto (Nombre, Precio, Unidad, id_proveedor) VALUES (:nombre, :precio, :unidad, :id_proveedor)";
+    public function createProduct($nombre, $precio, $unidad, $id_proveedor = null, $umbral_bajo = 15, $umbral_critico = 5) {
+        $query = "INSERT INTO Producto (Nombre, Precio, Unidad, id_proveedor, Umbral_Bajo, Umbral_Critico) VALUES (:nombre, :precio, :unidad, :id_proveedor, :umbral_bajo, :umbral_critico)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':nombre', $nombre);
         $stmt->bindParam(':precio', $precio);
         $stmt->bindParam(':unidad', $unidad);
         $stmt->bindParam(':id_proveedor', $id_proveedor);
+        $stmt->bindParam(':umbral_bajo', $umbral_bajo);
+        $stmt->bindParam(':umbral_critico', $umbral_critico);
         $stmt->execute();
         return $this->conn->lastInsertId();
     }
 
-    public function updateProduct($id, $nombre, $precio, $unidad, $id_proveedor = null) {
-        $query = "UPDATE Producto SET Nombre = :nombre, Precio = :precio, Unidad = :unidad, id_proveedor = :id_proveedor 
+    public function updateProduct($id, $nombre, $precio, $unidad, $id_proveedor = null, $umbral_bajo = 15, $umbral_critico = 5) {
+        $query = "UPDATE Producto SET Nombre = :nombre, Precio = :precio, Unidad = :unidad, id_proveedor = :id_proveedor, Umbral_Bajo = :umbral_bajo, Umbral_Critico = :umbral_critico
                   WHERE id_producto = :id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':nombre', $nombre);
@@ -74,6 +75,8 @@ class ProductModel {
         $stmt->bindParam(':unidad', $unidad);
         $stmt->bindParam(':id_proveedor', $id_proveedor);
         $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':umbral_bajo', $umbral_bajo);
+        $stmt->bindParam(':umbral_critico', $umbral_critico);
         $stmt->execute();
     }
 
