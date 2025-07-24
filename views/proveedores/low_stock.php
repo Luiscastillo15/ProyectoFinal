@@ -64,13 +64,13 @@
                             <td>Bs <?php echo number_format($product['Precio'], 2); ?></td>
                             <td><?php echo htmlspecialchars($product['Unidad']); ?></td>
                             <td>
-                                <span style="color: <?php echo $product['Cantidad'] <= 5 ? '#e74c3c' : '#f39c12'; ?>; font-weight: bold;">
+                                <span style="color: <?php echo $product['Cantidad'] <= $product['Umbral_Critico'] ? '#e74c3c' : '#f39c12'; ?>; font-weight: bold;">
                                     <?php echo $product['Cantidad']; ?>
                                 </span>
                             </td>
                             <td><strong>Bs <?php echo number_format($product['Precio'] * $product['Cantidad'], 2); ?></strong></td>
                             <td>
-                                <?php if ($product['Cantidad'] <= 5): ?>
+                                <?php if ($product['Cantidad'] <= $product['Umbral_Critico']): ?>
                                     <span style="background: #fee; color: #c53030; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
                                         🚨 CRÍTICO
                                     </span>
