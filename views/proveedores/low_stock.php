@@ -8,10 +8,6 @@
        class="btn" style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">
         🏭 Lista de Proveedores
     </a>
-    <a href="index.php?action=proveedores&method=lowStock" 
-       class="btn" style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);">
-        ⚠️ Productos con Stock Bajo
-    </a>
     <?php if (isset($products) && !empty($products)): ?>
         <a href="index.php?action=invoice&method=lowStockReport&threshold=<?php echo $threshold; ?>" 
             target="_blank" class="btn btn-warning">📄 Generar PDF</a>
