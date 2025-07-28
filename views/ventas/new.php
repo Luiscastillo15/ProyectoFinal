@@ -209,7 +209,7 @@
                 </div>
                 
                 <!-- Monto Recibido - Más Compacto -->
-                <div style="background: white; padding: 0.8rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid #27ae60;">
+                <div id="amount_paid_container" style="display: none; background: white; padding: 0.8rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid #27ae60;">
                     <h4 style="color: #2c3e50; margin-bottom: 0.5rem; font-size: 0.9rem;">💰 Monto Recibido</h4>
                     <div class="form-group" style="margin-bottom: 0;">
                         <label for="amount_paid" style="font-size: 0.8rem; margin-bottom: 0.3rem;">Cantidad que paga el cliente (Bs):</label>
@@ -300,7 +300,7 @@
                 </div>
                 
                 <div style="text-align: center; margin-top: 1.5rem;">
-                    <button type="submit" name="finalize_sale" class="btn" style="background: linear-gradient(135deg, #27ae60, #229954); color: white; border: none; font-size: 1.1rem; padding: 1rem 2.5rem; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);">
+                    <button disabled type="submit" name="finalize_sale" class="btn" style="background: linear-gradient(135deg, #27ae60, #229954); color: white; border: none; font-size: 1.1rem; padding: 1rem 2.5rem; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);">
                         ✅ Finalizar Venta
                     </button>
                     <a href="index.php?action=ventas&method=new" class="btn" style="background: linear-gradient(135deg, #95a5a6, #7f8c8d); color: white; border: none; margin-left: 1rem; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">
@@ -537,6 +537,8 @@ document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
         const changeCalculator = document.getElementById('change_calculator');
         const amountPaidField = document.getElementById('amount_paid');
         
+        document.getElementById('amount_paid_container').style.display = 'block';
+        
         if (this.value === 'Divisas') {
             divisasFields.style.display = 'block';
             changeCalculator.style.display = 'none';
@@ -555,9 +557,9 @@ document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
         } else {
             divisasFields.style.display = 'none';
             changeCalculator.style.display = 'none';
-            amountPaidField.readOnly = false;
-            amountPaidField.style.backgroundColor = '';
-            amountPaidField.style.cursor = '';
+            amountPaidField.readOnly = true;
+            amountPaidField.style.backgroundColor = '#f8f9fa';
+            amountPaidField.style.cursor = 'not-allowed';
             amountPaidField.value = saleTotal.toFixed(2);
             document.getElementById('divisas_calculator').style.display = 'none';
         }
@@ -574,8 +576,11 @@ function updateChangeCalculation() {
     
     const changeAlert = document.getElementById('change_alert');
     changeAlert.style.display = 'block';
+
+    const submitBtn = document.querySelector('button[name="finalize_sale"]');
+        console.log(submitBtn);
     
-    if (change > 0) {
+    if (amountPaid > saleTotal) {
         changeAlert.style.background = '#d4edda';
         changeAlert.style.color = '#155724';
         changeAlert.style.border = '1px solid #c3e6cb';
@@ -583,7 +588,8 @@ function updateChangeCalculation() {
             <strong>💰 Vuelto a entregar: Bs ${change.toFixed(2)}</strong><br>
             <small>El cliente paga Bs ${amountPaid.toFixed(2)} y debe recibir Bs ${change.toFixed(2)} de vuelto</small>
         `;
-    } else if (change < 0) {
+        submitBtn.disabled = false;
+    } else if (amountPaid < saleTotal) {
         changeAlert.style.background = '#f8d7da';
         changeAlert.style.color = '#721c24';
         changeAlert.style.border = '1px solid #f5c6cb';
@@ -591,6 +597,7 @@ function updateChangeCalculation() {
             <strong>⚠️ Dinero insuficiente: Faltan Bs ${Math.abs(change).toFixed(2)}</strong><br>
             <small>El cliente necesita pagar Bs ${saleTotal.toFixed(2)} para cubrir el total</small>
         `;
+        submitBtn.disabled = true;
     } else {
         changeAlert.style.background = '#d1ecf1';
         changeAlert.style.color = '#0c5460';
@@ -599,6 +606,7 @@ function updateChangeCalculation() {
             <strong>✅ Pago exacto: No hay vuelto</strong><br>
             <small>El monto cubre exactamente el total de la venta</small>
         `;
+        submitBtn.disabled = false;
     }
 }
 
@@ -622,8 +630,10 @@ function updateDivisasCalculation() {
         
         const changeAlert = document.getElementById('divisas_change_alert');
         changeAlert.style.display = 'block';
+        const submitBtn = document.querySelector('button[name="finalize_sale"]');
+        console.log(submitBtn);
         
-        if (change > 0) {
+        if (bsEquivalent > saleTotal) {
             changeAlert.style.background = '#d4edda';
             changeAlert.style.color = '#155724';
             changeAlert.style.border = '1px solid #c3e6cb';
@@ -631,7 +641,8 @@ function updateDivisasCalculation() {
                 <strong>💰 Vuelto a entregar: Bs ${change.toFixed(2)}</strong><br>
                 <small>El cliente paga $${divisasAmount.toFixed(2)} y debe recibir Bs ${change.toFixed(2)} de vuelto</small>
             `;
-        } else if (change < 0) {
+            submitBtn.disabled = false;
+        } else if (bsEquivalent < saleTotal) {
             changeAlert.style.background = '#f8d7da';
             changeAlert.style.color = '#721c24';
             changeAlert.style.border = '1px solid #f5c6cb';
@@ -639,6 +650,7 @@ function updateDivisasCalculation() {
                 <strong>⚠️ Dinero insuficiente: Faltan Bs ${Math.abs(change).toFixed(2)}</strong><br>
                 <small>El cliente necesita pagar $${(saleTotal / exchangeRate).toFixed(2)} para cubrir el total</small>
             `;
+            submitBtn.disabled = true;
         } else {
             changeAlert.style.background = '#d1ecf1';
             changeAlert.style.color = '#0c5460';
@@ -647,6 +659,7 @@ function updateDivisasCalculation() {
                 <strong>✅ Pago exacto: No hay vuelto</strong><br>
                 <small>El monto en divisas cubre exactamente el total de la venta</small>
             `;
+            submitBtn.disabled = false;
         }
     } else {
         calculator.style.display = 'none';
@@ -720,12 +733,10 @@ document.getElementById('finalize-form').addEventListener('submit', function(e) 
     }
     
     if (paymentMethod.value === 'Efectivo') {
-        const change = amountPaid - saleTotal;
-        if (change < 0) {
-            if (!confirm(`⚠️ El dinero es insuficiente. Faltan Bs ${Math.abs(change).toFixed(2)}.\n\n¿Desea continuar? Esto creará una deuda pendiente.`)) {
-                e.preventDefault();
-                return false;
-            }
+        if (amountPaid < saleTotal) {
+            alert(`⚠️ El dinero es insuficiente. Faltan Bs ${Math.abs(amountPaid - saleTotal).toFixed(2)}.`)
+            e.preventDefault();
+            return false;
         }
     }
     
@@ -733,6 +744,12 @@ document.getElementById('finalize-form').addEventListener('submit', function(e) 
     if (paymentMethod.value === 'Divisas') {
         const divisasAmount = parseFloat(document.getElementById('divisas_amount').value) || 0;
         const exchangeRate = parseFloat(document.getElementById('exchange_rate').value) || 0;
+
+        if (amountPaid < saleTotal) {
+            alert(`⚠️ El dinero es insuficiente. Faltan Bs ${Math.abs(amountPaid - saleTotal).toFixed(2)}.`)
+            e.preventDefault();
+            return false;
+        }
         
         if (divisasAmount <= 0) {
             e.preventDefault();

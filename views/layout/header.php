@@ -26,7 +26,6 @@
                 <a href="index.php?action=proveedores&method=list">🏭 Proveedores</a>
                 <a href="index.php?action=clientes&method=list">👥 Clientes</a>
                 <a href="index.php?action=ventas&method=list">🛒 Ventas</a>
-                <a href="index.php?action=deudores&method=list">💳 Deudores</a>
                 
                 <?php 
                 
