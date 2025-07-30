@@ -471,10 +471,30 @@ document.getElementById('product_search').addEventListener('input', function() {
     const select = document.getElementById('product_id');
     const options = select.options;
     
+    let validOptions = 0;
     for (let i = 1; i < options.length; i++) {
         const text = options[i].text.toLowerCase();
         options[i].style.display = text.includes(searchTerm) ? '' : 'none';
+        if (options[i].style.display !== 'none') {
+            validOptions++;
+        }
     }
+
+    if (validOptions === 1) {
+        // Si solo queda un producto visible, seleccionarlo automáticamente
+        for (let i = 1; i < options.length; i++) {
+            if (options[i].style.display !== 'none') {
+                select.selectedIndex = i;
+                document.getElementById('product_id').dispatchEvent(new Event('change'));
+                break;
+            }
+        }
+    } else {
+        // Si hay más de un producto visible, no seleccionar ninguno
+        select.selectedIndex = 0;
+        document.getElementById('product-info').style.display = 'none';
+    }
+
 });
 
 // Información del producto seleccionado
