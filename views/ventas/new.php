@@ -545,15 +545,6 @@ document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
             amountPaidField.readOnly = true;
             amountPaidField.style.backgroundColor = '#f8f9fa';
             amountPaidField.style.cursor = 'not-allowed';
-        } else if (this.value === 'Efectivo') {
-            divisasFields.style.display = 'none';
-            changeCalculator.style.display = 'block';
-            amountPaidField.readOnly = false;
-            amountPaidField.style.backgroundColor = '';
-            amountPaidField.style.cursor = '';
-            amountPaidField.value = saleTotal.toFixed(2);
-            updateChangeCalculation();
-            document.getElementById('divisas_calculator').style.display = 'none';
         } else {
             divisasFields.style.display = 'none';
             changeCalculator.style.display = 'none';
@@ -562,6 +553,7 @@ document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
             amountPaidField.style.cursor = 'not-allowed';
             amountPaidField.value = saleTotal.toFixed(2);
             document.getElementById('divisas_calculator').style.display = 'none';
+            updateChangeCalculation();
         }
     });
 });
