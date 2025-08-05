@@ -66,7 +66,11 @@
                             </td>
                             <td><strong>Bs <?php echo number_format($product['Precio'] * $product['Cantidad'], 2); ?></strong></td>
                             <td>
-                                <?php if ($product['Cantidad'] <= $product['Umbral_Critico']): ?>
+                                <?php if ($product['Cantidad'] <= 0): ?>
+                                    <span style="background: #fee; color: #c53030; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
+                                        🚫 Agotado
+                                    </span>
+                                <?php elseif ($product['Cantidad'] <= $product['Umbral_Critico']): ?>
                                     <span style="background: #fee; color: #c53030; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
                                         🚨 CRÍTICO
                                     </span>

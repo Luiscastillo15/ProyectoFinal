@@ -183,7 +183,9 @@ $criticalProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <?php endif; ?>
                         </td>
                         <td>
-                            <?php if ($product['Cantidad'] <= $product['Umbral_Critico']): ?>
+                            <?php if ($product['Cantidad'] <= 0): ?>
+                                <span class="status-indicator status-low">🚫 Agotado</span>
+                            <?php elseif ($product['Cantidad'] <= $product['Umbral_Critico']): ?>
                                 <span class="status-indicator status-low">⚠️ Stock Crítico</span>
                             <?php elseif ($product['Cantidad'] <= $product['Umbral_Bajo']): ?>
                                 <span class="status-indicator status-medium">⚡ Stock Bajo</span>

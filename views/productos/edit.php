@@ -51,16 +51,16 @@
 
             <div class="form-group">
                 <label for="umbral_bajo">⚠️ Umbral de Stock Bajo:</label>
-                <input type="number" id="umbral_bajo" name="umbral_bajo" min="0" required 
+                <input type="number" id="umbral_bajo" name="umbral_bajo" min="0" required
                        placeholder="10"
-                       value="<?php echo isset($_POST['umbral_bajo']) ? $_POST['umbral_bajo'] : ''; ?>">
+                       value="<?php echo $product['Umbral_Bajo']; ?>">
             </div>
 
             <div class="form-group">
                 <label for="umbral_critico">🚨 Umbral de Stock Crítico:</label>
-                <input type="number" id="umbral_critico" name="umbral_critico" min="0" required 
+                <input type="number" id="umbral_critico" name="umbral_critico" min="0" required
                        placeholder="5"
-                       value="<?php echo isset($_POST['umbral_critico']) ? $_POST['umbral_critico'] : ''; ?>">
+                       value="<?php echo $product['Umbral_Critico']; ?>">
             </div>
         </div>
 
