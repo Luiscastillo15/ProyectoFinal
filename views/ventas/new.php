@@ -334,6 +334,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedClient = '<?php echo isset($_POST['cedula_rif']) ? $_POST['cedula_rif'] : ''; ?>';
         if (selectedClient) {
             document.getElementById('final_cedula_rif').value = selectedClient;
+            document.getElementById('hidden_cedula_rif').value = selectedClient;
             if (selectedClientType === 'registered') {
                 document.getElementById('cedula_rif').value = selectedClient;
             }
