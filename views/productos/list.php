@@ -96,10 +96,6 @@ $criticalProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
            class="btn" style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 3px 10px rgba(231, 76, 60, 0.3);">
             📋 Ver Reporte Completo
         </a>
-        <a href="index.php?action=productos&method=list" 
-           class="btn" style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">
-            📦 Ver Inventario
-        </a>
         <button class="btn" onclick="showCriticalProductProviders()" style="background: linear-gradient(135deg,rgb(10, 106, 58),rgb(49, 84, 44)); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">📞Contactar</button>        
     </div>
 </div>
