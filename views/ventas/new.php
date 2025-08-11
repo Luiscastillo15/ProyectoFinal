@@ -270,7 +270,7 @@
                         <div class="form-group">
                             <label for="exchange_rate" style="font-size: 0.9rem;">💱 Tasa de Cambio (Bs por USD):</label>
                             <input type="number" id="exchange_rate" name="exchange_rate" step="0.01" min="0" 
-                                   placeholder="Ej: 36.50" style="font-size: 1rem; padding: 0.6rem;" disabled>
+                                   placeholder="Ej: 36.50" style="font-size: 1rem; padding: 0.6rem;" readonly>
                         </div>
                     </div>
                     
