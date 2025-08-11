@@ -6,6 +6,14 @@
     <div class="alert alert-danger">⚠️ <?php echo $error; ?></div>
 <?php endif; ?>
 
+<?php
+    // Request de las tasas de cambio
+    $curl = curl_init('https://pydolarve.org/api/v2/dollar');
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $response_exrate_usd = curl_exec($curl);
+    curl_close($curl);
+?>
+
 <!-- Selección de Cliente - Mejorada -->
 <div class="card">
     <h3>👤 Tipo de Cliente</h3>
@@ -262,7 +270,7 @@
                         <div class="form-group">
                             <label for="exchange_rate" style="font-size: 0.9rem;">💱 Tasa de Cambio (Bs por USD):</label>
                             <input type="number" id="exchange_rate" name="exchange_rate" step="0.01" min="0" 
-                                   placeholder="Ej: 36.50" style="font-size: 1rem; padding: 0.6rem;">
+                                   placeholder="Ej: 36.50" style="font-size: 1rem; padding: 0.6rem;" disabled>
                         </div>
                     </div>
                     
@@ -342,6 +350,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     document.scrollingElement.scrollTop = <?php echo isset($_POST['scroll_position']) ? $_POST['scroll_position'] : '0'; ?>;
+    document.getElementById('exchange_rate').value = JSON.parse(`<?php echo $response_exrate_usd ?>`).monitors.bcv.price.toFixed(2);
 });
 
 // Selección de tipo de cliente
