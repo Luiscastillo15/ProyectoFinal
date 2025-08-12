@@ -37,7 +37,6 @@
         <div style="display: flex; gap: 0.5rem;">
             <select id="payment-filter" style="padding: 0.5rem;">
                 <option value="">Todos los estados</option>
-                <option value="Pagado">✅ Pagado</option>
             </select>
             <button onclick="clearFilters()" class="btn" style="background: linear-gradient(135deg, #95a5a6, #7f8c8d); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; transition: all 0.3s ease;">
                 🔄 Limpiar

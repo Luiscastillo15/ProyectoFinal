@@ -36,39 +36,6 @@ $criticalProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 <?php endif; ?>
 
-<h2>📦 Gestión de Inventario</h2>
-
-<?php if (isset($_SESSION['success'])): ?>
-    <div class="alert alert-success">✅ <?php echo $_SESSION['success']; unset($_SESSION['success']); ?></div>
-<?php endif; ?>
-
-<?php if (isset($_SESSION['error'])): ?>
-    <div class="alert alert-danger">⚠️ <?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
-<?php endif; ?>
-
-<div class="stats-grid" style="margin-top: 2rem;">
-    <div class="stat-card">
-        <span class="stat-number"><?php echo count($products); ?></span>
-        <span class="stat-label">📦 Total Productos</span>
-    </div>
-    <div class="stat-card">
-        <span class="stat-number"><?php echo count(array_filter($products, function($p) { return $p['Cantidad'] > $p['Umbral_Bajo']; })); ?></span>
-        <span class="stat-label">✅ Stock Bueno</span>
-    </div>
-    <div class="stat-card">
-        <span class="stat-number" style="color: #f39c12;"><?php echo count(array_filter($products, function($p) { return $p['Cantidad'] <= $p['Umbral_Bajo'] && $p['Cantidad'] > $p['Umbral_Critico']; })); ?></span>
-        <span class="stat-label">⚡ Stock Bajo</span>
-    </div>
-    <div class="stat-card">
-        <span class="stat-number" style="color: #e74c3c;"><?php echo count(array_filter($products, function($p) { return $p['Cantidad'] <= $p['Umbral_Critico']; })); ?></span>
-        <span class="stat-label">⚠️ Stock Crítico</span>
-    </div>
-    <div class="stat-card">
-        <span class="stat-number"><?php echo count(array_filter($products, function($p) { return !empty($p['Proveedor_Nombre']); })); ?></span>
-        <span class="stat-label">🏭 Con Proveedor</span>
-    </div>
-</div>
-
 <!-- Alerta de Stock Crítico -->
 <?php if ($criticalStockCount > 0 || $lowStockCount > 0): ?>
 <div class="alert" style="background: linear-gradient(135deg, #fff3cd, #ffeaa7); border-left: 4px solid #f39c12; margin-bottom: 2rem; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(243, 156, 18, 0.2);">
@@ -124,6 +91,16 @@ $criticalProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 <?php endif; ?>
 
+<h2>📦 Gestión de Inventario</h2>
+
+<?php if (isset($_SESSION['success'])): ?>
+    <div class="alert alert-success">✅ <?php echo $_SESSION['success']; unset($_SESSION['success']); ?></div>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['error'])): ?>
+    <div class="alert alert-danger">⚠️ <?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
+<?php endif; ?>
+
 <div class="search-container">
     <div class="search-row">
         <div>
@@ -139,6 +116,28 @@ $criticalProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <a href="index.php?action=productos&method=add" class="btn btn-success">➕ Agregar Producto</a>
             <?php endif; ?>
         </div>
+    </div>
+</div>
+<div class="stats-grid" style="margin-top: 2rem;">
+    <div class="stat-card">
+        <span class="stat-number"><?php echo count($products); ?></span>
+        <span class="stat-label">📦 Total Productos</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-number"><?php echo count(array_filter($products, function($p) { return $p['Cantidad'] > $p['Umbral_Bajo']; })); ?></span>
+        <span class="stat-label">✅ Stock Bueno</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-number" style="color: #f39c12;"><?php echo count(array_filter($products, function($p) { return $p['Cantidad'] <= $p['Umbral_Bajo'] && $p['Cantidad'] > $p['Umbral_Critico']; })); ?></span>
+        <span class="stat-label">⚡ Stock Bajo</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-number" style="color: #e74c3c;"><?php echo count(array_filter($products, function($p) { return $p['Cantidad'] <= $p['Umbral_Critico']; })); ?></span>
+        <span class="stat-label">⚠️ Stock Crítico</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-number"><?php echo count(array_filter($products, function($p) { return !empty($p['Proveedor_Nombre']); })); ?></span>
+        <span class="stat-label">🏭 Con Proveedor</span>
     </div>
 </div>
 

@@ -36,40 +36,6 @@ $proveedoresInventario = $proveedorModel->getAllProveedoresConInventarioYCompras
 ?>
 <!-- CDN Bootstrap 5 solo si no está en el header -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<?php if (!empty($proveedoresInventario)): ?>
-    <h3 class="mt-4 mb-3">🏭 Inventario y Compras por Proveedor</h3>
-    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
-        <?php foreach ($proveedoresInventario as $prov): ?>
-            <div class="col">
-                <div class="card h-100 shadow-sm border-success">
-                    <div class="card-body">
-                        <h5 class="card-title text-success">
-                            <?php echo htmlspecialchars($prov['nombre_proveedor']); ?>
-                        </h5>
-                        <p class="card-text mb-0">
-                            <span class="fw-bold">Inventario actual:</span> <?php echo (int)$prov['total_inventario']; ?> unidades<br>
-                            <span class="fw-bold">Total vendido:</span> <?php echo (int)$prov['total_vendido']; ?> unidades<br>
-                            <span class="fw-bold">Total comprado históricamente:</span> <?php echo (int)$prov['total_comprado']; ?> unidades
-                        </p>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
-
-<!-- Navegación de Secciones -->
-<div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
-    <a href="index.php?action=proveedores&method=list" 
-       class="btn" style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);">
-        🏭 Lista de Proveedores
-    </a>
-    <a href="index.php?action=proveedores&method=lowStock" 
-       class="btn" style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">
-        ⚠️ Productos con Stock Bajo
-    </a>
-</div>
-
 <div class="search-container">
     <div class="search-row">
         <div>
@@ -202,6 +168,27 @@ $proveedoresInventario = $proveedorModel->getAllProveedoresConInventarioYCompras
             </table>
         </div>
     </div>
+    <?php if (!empty($proveedoresInventario)): ?>
+    <h3 class="mt-4 mb-3">🏭 Inventario y Compras por Proveedor</h3>
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+        <?php foreach ($proveedoresInventario as $prov): ?>
+            <div class="col">
+                <div class="card h-100 shadow-sm border-success">
+                    <div class="card-body">
+                        <h5 class="card-title text-success">
+                            <?php echo htmlspecialchars($prov['nombre_proveedor']); ?>
+                        </h5>
+                        <p class="card-text mb-0">
+                            <span class="fw-bold">Inventario actual:</span> <?php echo (int)$prov['total_inventario']; ?> unidades<br>
+                            <span class="fw-bold">Total vendido:</span> <?php echo (int)$prov['total_vendido']; ?> unidades<br>
+                            <span class="fw-bold">Total comprado históricamente:</span> <?php echo (int)$prov['total_comprado']; ?> unidades
+                        </p>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
 
     <?php if (!$isAdmin): ?>
     <div class="alert alert-info" style="margin-top: 2rem;">

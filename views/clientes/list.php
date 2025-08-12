@@ -21,6 +21,25 @@
         </div>
     </div>
 </div>
+<!-- Estadísticas -->
+    <div class="stats-grid" style="margin-top: 2rem;">
+        <div class="stat-card">
+            <span class="stat-number"><?php echo count($clients); ?></span>
+            <span class="stat-label">👥 Total Clientes</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number"><?php echo count(array_filter($clients, function($c) { return !empty($c['Telefono']); })); ?></span>
+            <span class="stat-label">📱 Con Teléfono</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number"><?php echo count(array_filter($clients, function($c) { return !empty($c['Correo']); })); ?></span>
+            <span class="stat-label">📧 Con Email</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number"><?php echo count(array_filter($clients, function($c) { return strpos($c['Cedula_Rif'], 'J') === 0; })); ?></span>
+            <span class="stat-label">🏢 Empresas (RIF)</span>
+        </div>
+    </div>
 
 <?php if (empty($clients)): ?>
     <div class="card" style="text-align: center; padding: 3rem;">
@@ -79,27 +98,6 @@
             </table>
         </div>
     </div>
-
-    <!-- Estadísticas -->
-    <div class="stats-grid" style="margin-top: 2rem;">
-        <div class="stat-card">
-            <span class="stat-number"><?php echo count($clients); ?></span>
-            <span class="stat-label">👥 Total Clientes</span>
-        </div>
-        <div class="stat-card">
-            <span class="stat-number"><?php echo count(array_filter($clients, function($c) { return !empty($c['Telefono']); })); ?></span>
-            <span class="stat-label">📱 Con Teléfono</span>
-        </div>
-        <div class="stat-card">
-            <span class="stat-number"><?php echo count(array_filter($clients, function($c) { return !empty($c['Correo']); })); ?></span>
-            <span class="stat-label">📧 Con Email</span>
-        </div>
-        <div class="stat-card">
-            <span class="stat-number"><?php echo count(array_filter($clients, function($c) { return strpos($c['Cedula_Rif'], 'J') === 0; })); ?></span>
-            <span class="stat-label">🏢 Empresas (RIF)</span>
-        </div>
-    </div>
-
     <!-- Información de permisos -->
     <?php if ($isVendedor && !$isAdmin): ?>
     <div class="alert alert-info" style="margin-top: 2rem;">
