@@ -34,27 +34,6 @@ require_once __DIR__ . '/../../controllers/models/ProveedorModel.php';
 $proveedorModel = new ProveedorModel($db);
 $proveedoresInventario = $proveedorModel->getAllProveedoresConInventarioYCompras();
 ?>
-
-<!-- Estadísticas -->
-<div class="stats-grid" style="margin-top: 2rem;">
-    <div class="stat-card">
-        <span class="stat-number"><?php echo count($proveedores); ?></span>
-        <span class="stat-label">🏭 Total Proveedores</span>
-    </div>
-    <div class="stat-card">
-        <span class="stat-number"><?php echo count(array_filter($proveedores, function($p) { return !empty($p['Telefono']); })); ?></span>
-        <span class="stat-label">📱 Con Teléfono</span>
-    </div>
-    <div class="stat-card">
-        <span class="stat-number"><?php echo count(array_filter($proveedores, function($p) { return !empty($p['Correo']); })); ?></span>
-        <span class="stat-label">📧 Con Email</span>
-    </div>
-    <div class="stat-card">
-        <span class="stat-number"><?php echo count(array_unique(array_column($proveedores, 'Tipo_Producto'))); ?></span>
-        <span class="stat-label">📦 Tipos Diferentes</span>
-    </div>
-</div>
-
 <!-- CDN Bootstrap 5 solo si no está en el header -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <?php if (!empty($proveedoresInventario)): ?>
@@ -119,7 +98,25 @@ $proveedoresInventario = $proveedorModel->getAllProveedoresConInventarioYCompras
         </div>
     </div>
 </div>
-
+<!-- Estadísticas -->
+<div class="stats-grid" style="margin-top: 2rem;">
+    <div class="stat-card">
+        <span class="stat-number"><?php echo count($proveedores); ?></span>
+        <span class="stat-label">🏭 Total Proveedores</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-number"><?php echo count(array_filter($proveedores, function($p) { return !empty($p['Telefono']); })); ?></span>
+        <span class="stat-label">📱 Con Teléfono</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-number"><?php echo count(array_filter($proveedores, function($p) { return !empty($p['Correo']); })); ?></span>
+        <span class="stat-label">📧 Con Email</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-number"><?php echo count(array_unique(array_column($proveedores, 'Tipo_Producto'))); ?></span>
+        <span class="stat-label">📦 Tipos Diferentes</span>
+    </div>
+</div>
 <?php if (empty($proveedores)): ?>
     <div class="card" style="text-align: center; padding: 3rem;">
         <h3>🏭 No hay proveedores registrados</h3>
