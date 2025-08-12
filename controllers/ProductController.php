@@ -112,7 +112,11 @@ class ProductController {
                 $_SESSION['success'] = "Producto eliminado exitosamente";
             } catch (Exception $e) {
                 $this->productModel->rollBack();
-                $_SESSION['error'] = "Error al eliminar el producto: " . $e->getMessage();
+                if (str_contains($e->getMessage(), "1451")) {
+                    $_SESSION['error'] = "Error al eliminar el producto: no se puede eliminar un producto que ya ha sido vendido.";
+                } else {
+                    $_SESSION['error'] = "Error al eliminar el producto: " . $e->getMessage();
+                }
             }
         }
         

@@ -38,7 +38,6 @@
             <select id="payment-filter" style="padding: 0.5rem;">
                 <option value="">Todos los estados</option>
                 <option value="Pagado">✅ Pagado</option>
-                <option value="No Pagado">⚠️ No Pagado</option>
             </select>
             <button onclick="clearFilters()" class="btn" style="background: linear-gradient(135deg, #95a5a6, #7f8c8d); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; transition: all 0.3s ease;">
                 🔄 Limpiar
@@ -65,15 +64,11 @@
         </div>
         <div class="stat-card">
             <span class="stat-number">Bs <?php echo number_format(array_sum(array_column($sales, 'Total')), 2); ?></span>
-            <span class="stat-label">💰 Total VOUCHERdo</span>
+            <span class="stat-label">💰 Ingresos totales</span>
         </div>
         <div class="stat-card">
             <span class="stat-number" style="color: #27ae60;"><?php echo count(array_filter($sales, function($s) { return $s['Estado_Pago'] === 'Pagado'; })); ?></span>
             <span class="stat-label">✅ Ventas Pagadas</span>
-        </div>
-        <div class="stat-card">
-            <span class="stat-number" style="color: #e74c3c;"><?php echo count(array_filter($sales, function($s) { return $s['Estado_Pago'] === 'No Pagado'; })); ?></span>
-            <span class="stat-label">⚠️ Ventas No Pagadas</span>
         </div>
     </div>
 
