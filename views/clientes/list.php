@@ -4,11 +4,11 @@
 
 <div class="search-container">
     <div class="search-row">
-        <div>
+        <div style="width: 100%; height: 100%; display: flex; align-items: center;">
             <input type="text" id="client-search" placeholder="🔍 Buscar clientes por cédula, nombre o teléfono..." 
                    style="margin-bottom: 0;">
         </div>
-        <div>
+        <div style="width: 100%; height: 100%; display: flex; align-items: center;">
             <?php 
             // Permitir agregar clientes tanto a administradores como a vendedores
             $isAdmin = isset($_SESSION['rol_nombre']) && strtolower($_SESSION['rol_nombre']) === 'administrador';
@@ -16,7 +16,7 @@
             
             if ($isAdmin || $isVendedor): 
             ?>
-            <a href="index.php?action=clientes&method=add" class="btn btn-success">➕ Agregar Cliente</a>
+            <a href="index.php?action=clientes&method=add" class="btn btn-success" style="margin: 0;">➕ Agregar Cliente</a>
             <?php endif; ?>
         </div>
     </div>

@@ -38,7 +38,7 @@ $proveedoresInventario = $proveedorModel->getAllProveedoresConInventarioYCompras
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <div class="search-container">
     <div class="search-row">
-        <div>
+        <div style="width: 100%; height: 100%; display: flex; align-items: center;">
             <input type="text" id="proveedor-search" placeholder="🔍 Buscar proveedores por nombre, RIF o tipo..." 
                    style="margin-bottom: 0;">
         </div>
@@ -59,7 +59,7 @@ $proveedoresInventario = $proveedorModel->getAllProveedoresConInventarioYCompras
             $isAdmin = isset($_SESSION['rol_nombre']) && strtolower($_SESSION['rol_nombre']) === 'administrador';
             if ($isAdmin): 
             ?>
-            <a href="index.php?action=proveedores&method=add" class="btn btn-success">➕ Agregar Proveedor</a>
+            <a href="index.php?action=proveedores&method=add" class="btn btn-success" style="height: 100%; margin: 0;">➕ Agregar Proveedor</a>
             <?php endif; ?>
         </div>
     </div>
