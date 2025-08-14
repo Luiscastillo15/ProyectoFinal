@@ -13,9 +13,9 @@
                 <label for="cedula_rif">🆔 Cédula/RIF:</label>
                 <input type="text" id="cedula_rif" name="cedula_rif" required 
                        placeholder="Ej: 12345678 o J123456789"
-                       maxlength="10">
+                       maxlength="13">
                 <small style="color: #7f8c8d; font-size: 0.8rem;">
-                    Cédula: 8 dígitos | RIF: J + 9 dígitos
+                    Cédula: hasta 13 dígitos | RIF: J + hasta 12 dígitos
                 </small>
             </div>
             
@@ -59,8 +59,8 @@
         <div class="alert alert-info">
             <strong>💡 Información:</strong>
             <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
-                <li><strong>Cédula:</strong> Debe tener exactamente 8 dígitos</li>
-                <li><strong>RIF:</strong> Debe comenzar con J seguido de 9 dígitos</li>
+                <li><strong>Cédula:</strong> Debe tener hasta 13 dígitos</li>
+                <li><strong>RIF:</strong> Debe comenzar con J seguido de hasta 12 dígitos</li>
                 <li><strong>Teléfono:</strong> Debe tener exactamente 11 dígitos</li>
             </ul>
         </div>
@@ -84,14 +84,6 @@ document.getElementById('cedula_rif').addEventListener('input', function() {
     // Si empieza con J, permitir J + números
     if (this.value.toUpperCase().startsWith('J')) {
         value = 'J' + value;
-        if (value.length > 10) {
-            value = value.substring(0, 10);
-        }
-    } else {
-        // Solo números para cédula
-        if (value.length > 8) {
-            value = value.substring(0, 8);
-        }
     }
     
     this.value = value;
@@ -119,11 +111,11 @@ document.getElementById('telefono').addEventListener('input', function() {
 // Función para validar cédula/RIF
 function validateCedulaRif(value) {
     if (value.toUpperCase().startsWith('J')) {
-        // RIF: J + 9 dígitos
-        return /^J\d{9}$/.test(value.toUpperCase());
+        // RIF: J + 12 dígitos
+        return /^J\d{12}$/.test(value.toUpperCase());
     } else {
-        // Cédula: 8 dígitos
-        return /^\d{8}$/.test(value);
+        // Cédula: 13 dígitos
+        return /^\d{13}$/.test(value);
     }
 }
 
@@ -148,9 +140,9 @@ document.getElementById('clientForm').addEventListener('submit', function(e) {
     // Validar cédula/RIF
     if (!validateCedulaRif(cedulaRif)) {
         if (cedulaRif.toUpperCase().startsWith('J')) {
-            errors.push('El RIF debe tener el formato: J seguido de 9 dígitos (Ej: J123456789)');
+            errors.push('El RIF debe tener el formato: J seguido de 12 dígitos (Ej: J123456789012)');
         } else {
-            errors.push('La cédula debe tener exactamente 8 dígitos (Ej: 12345678)');
+            errors.push('La cédula debe tener exactamente 13 dígitos (Ej: 1234567890123)');
         }
     }
     
