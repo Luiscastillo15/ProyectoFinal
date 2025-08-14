@@ -349,9 +349,8 @@
                 <div class="company-name">AguaZero C.A.</div>
                 <div class="company-subtitle">Sistema de Control de Ventas</div>
                 <div class="company-details">
-                    📍 Av. Principal #123, Centro Comercial Plaza Mayor<br>
-                    📱 +58 212-555-0123 | 📧 info@AguaZero C.A..com<br>
-                    🌐 www.AguaZero C.A..com
+                    📍 Av.Enrique Tejera<br>
+                    📱 +58 412-855.0868 | 📧 aguazeroca@gmail.com<br>
                 </div>
             </div>
             <div class="invoice-title">
@@ -507,7 +506,7 @@
         <div class="footer">
             <p><strong>Gracias por su compra</strong></p>
             <p>Sistema de Control de Ventas AguaZero C.A. © <?php echo date('Y'); ?></p>
-            <p>Esta es una VOUCHER generada electrónicamente</p>
+            <p>Esta es un voucher generado electrónicamente</p>
         </div>
     </div>
 
