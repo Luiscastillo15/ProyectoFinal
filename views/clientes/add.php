@@ -112,10 +112,10 @@ document.getElementById('telefono').addEventListener('input', function() {
 function validateCedulaRif(value) {
     if (value.toUpperCase().startsWith('J')) {
         // RIF: J + 12 dígitos
-        return /^J\d{12}$/.test(value.toUpperCase());
+        return /^J\d{9}$/.test(value.toUpperCase());
     } else {
-        // Cédula: 13 dígitos
-        return /^\d{13}$/.test(value);
+        // Cédula: 7 y 9 dígitos
+        return /^\d{7,9}$/.test(value);
     }
 }
 
